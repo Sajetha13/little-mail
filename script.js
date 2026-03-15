@@ -357,9 +357,11 @@ postBtn.addEventListener('click', async () => {
         postBtn.innerText = "post it";
         postBtn.disabled = false;
     } else {
-        // 3. Generate Link
-        const letterId = data[0].id;
-        const secretLink = window.location.href.split('index.html')[0] + `view.html?id=${letterId}`;        
+        // 3. Generate Link dynamically
+        // Chops off 'index.html' and adds 'view.html' so it works on Localhost & GitHub!
+        const baseUrl = window.location.href.split('index.html')[0];
+        const secretLink = `${baseUrl}view.html?id=${letterId}`;
+        
         // 4. Show Modal
         shareLinkBox.innerText = secretLink;
         shareModal.classList.remove('hidden');

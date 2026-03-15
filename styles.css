@@ -19,7 +19,7 @@
     --text-color: #5d4037;
 }
 
-body { margin: 0; font-family: 'Nunito', sans-serif; overflow: hidden; }
+body { margin: 0; font-family: 'Sacramento'; overflow: hidden; }
 
 /* --- THE DESK --- */
 .desk {
@@ -111,10 +111,27 @@ body { margin: 0; font-family: 'Nunito', sans-serif; overflow: hidden; }
     width: 150px; z-index: 20; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); pointer-events: none;
 }
 
+/* Update your main textarea block */
 textarea {
-    width: 100%; height: 100%; border: none; outline: none; resize: none;
-    font-size: 1.4rem; background: transparent; color: #555;
-    position: relative; z-index: 5;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    background: transparent;
+    color: #555;
+    position: relative;
+    z-index: 5;
+
+    /* CHANGE THIS: Match your placeholder size */
+    font-size: 1rem; 
+    line-height: 1.4;
+}
+
+/* Ensure the placeholder is the exact same */
+textarea::placeholder {
+    font-size: 1rem;
+    opacity: 0.5;
 }
 
 /* --- UTILITIES & MODAL --- */
@@ -212,9 +229,28 @@ body, .palette-inner, h2, h3, .opt, .action-btn {
     color: var(--text-color);
 }
 
-/* Make Headers even smaller to match the vibe */
-h2 { font-size: 1.1rem; }
 h3 { font-size: 0.75rem; text-transform: lowercase; }
+
+/* 1. Use a clean font for the UI */
+body, .palette-inner, h2, h3, .action-btn, .secondary-btn {
+    font-family: 'Nunito', sans-serif !important; 
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
+}
+
+/* 2. Keep the font-buttons unique (Typeface section) */
+.opt.font-btn {
+    /* Don't add a font-family here; the HTML inline styles will handle it */
+    font-size: 0.8rem;
+}
+
+/* 3. Make sure the headers still look cute */
+h2 {
+    font-family: 'Quattrocento', serif;
+    text-transform: lowercase;
+    font-size: 1.2rem;
+}
 
 /* --- 2. LAYOUT FIX (Keeps everything in the box) --- */
 .palette-inner {
@@ -442,3 +478,4 @@ h3 { font-size: 0.75rem; text-transform: lowercase; }
     background-position: center;
     background-color: transparent;
 }
+

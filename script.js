@@ -362,7 +362,9 @@ postBtn.addEventListener('click', async () => {
         
         shareLinkBox.innerText = secretLink;
         shareModal.classList.remove('hidden');
-        postBtn.innerText = "posted! 💌";
+        postBtn.innerText = "posted!";
+
+        resetAppToDefaults();
     }
 });
 
@@ -372,3 +374,37 @@ window.copyLink = () => {
     navigator.clipboard.writeText(shareLinkBox.innerText);
     alert("Link copied! Go send it to them! 🦢");
 };
+
+function resetAppToDefaults() {
+    // 1. Clear the storage
+    localStorage.removeItem('cozy_letter_draft');
+
+    // 2. Reset the state object
+    currentLetter = {
+        content: "",
+        font: "'Delius', cursive",
+        color: "#2c3e50",
+        paperImg: "assets/papers/paper_1.webp",
+        envelopeImg: "assets/envelopes/e_1.webp",
+        stickers: []
+    };
+
+    // 3. Clear UI Elements
+    textarea.value = "";
+    textarea.style.fontSize = "1rem";
+    textarea.style.fontFamily = currentLetter.font;
+    textarea.style.color = currentLetter.color;
+    paperWorkspace.style.backgroundImage = `url('${currentLetter.paperImg}')`;
+    envelope.style.backgroundImage = `url('${currentLetter.envelopeImg}')`;
+    sLayer.innerHTML = ''; // Remove all stickers
+
+    // 4. Reset Sidebar "Active" Classes
+    document.querySelectorAll('.paper-opt, .font-btn, .dot, .env-opt').forEach(el => el.classList.remove('active'));
+    // (Optional: Re-apply active class to your first defaults if you want)
+}
+
+function applyInkEffect(color) {
+    if (!textarea) return;
+    // Gives the text a slight "ink bleed" feel
+    textarea.style.textShadow = `0.4px 0.4px 1.5px ${color}44`; 
+}

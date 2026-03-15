@@ -335,7 +335,6 @@ postBtn.addEventListener('click', async () => {
     postBtn.innerText = "sending...";
     postBtn.disabled = true;
 
-    // 1. Prepare data (matching your table columns)
     const letterData = {
         content: currentLetter.content,
         font: currentLetter.font,
@@ -345,7 +344,6 @@ postBtn.addEventListener('click', async () => {
         stickers: currentLetter.stickers
     };
 
-    // 2. Insert into Supabase
     const { data, error } = await _supabase
         .from('letters')
         .insert([letterData])
@@ -357,13 +355,11 @@ postBtn.addEventListener('click', async () => {
         postBtn.innerText = "post it";
         postBtn.disabled = false;
     } else {
-        // 3. Generate Link dynamically
-        // Chops off 'index.html' and adds 'view.html' so it works on Localhost & GitHub!
-        const letterId = data[0].id;
+        // --- THE FIX ---
+        const letterId = data[0].id; // Grab the ID from Supabase
         const baseUrl = window.location.href.split('index.html')[0];
         const secretLink = `${baseUrl}view.html?id=${letterId}`;
         
-        // 4. Show Modal
         shareLinkBox.innerText = secretLink;
         shareModal.classList.remove('hidden');
         postBtn.innerText = "posted! 💌";

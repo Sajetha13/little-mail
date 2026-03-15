@@ -21,7 +21,7 @@ let currentLetter = {
     font: "'Delius', cursive",
     color: "#2c3e50",
     paperImg: "assets/papers/paper_1.webp",
-    envelopeImg: "assets/envelopes/envelope_1.webp", // New: Envelope State
+    envelopeImg: "assets/envelopes/e_1.webp", // New: Envelope State
     stickers: []
 };
 
@@ -359,8 +359,7 @@ postBtn.addEventListener('click', async () => {
     } else {
         // 3. Generate Link
         const letterId = data[0].id;
-        const secretLink = `${window.location.origin}/view.html?id=${letterId}`;
-        
+        const secretLink = window.location.href.split('index.html')[0] + `view.html?id=${letterId}`;        
         // 4. Show Modal
         shareLinkBox.innerText = secretLink;
         shareModal.classList.remove('hidden');

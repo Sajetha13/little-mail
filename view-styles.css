@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script&family=Indie+Flower&family=Nunito:wght@400;700&family=Pacifico&family=Patrick+Hand&family=Shadows+Into+Light&family=Cedarville+Cursive&family=Delius&family=Handlee&family=Homemade+Apple&family=La+Belle+Aurore&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Homemade+Apple&family=Reenie+Beanie&family=Cedarville+Cursive&family=Marck+Script&family=La+Belle+Aurore&family=Square+Peg&family=Fasthand&family=Freehand&family=Babylonica&family=Waterfall&family=Mrs+Saint+Delafield&family=Mr+De+Haviland&display=swap');
+
+/* --- RESET & BASE --- */
+body, html { 
+    margin: 0; 
+    padding: 0; 
+    height: 100%; 
+    overflow: hidden; 
+    font-family: 'Nunito', sans-serif; 
+}
+
+.canvas {
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffffff; 
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- 1. TOP LABEL (Always Sharp) --- */
+.top-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 4%;
+    left: 3%;
+    font-family: 'Quattrocento', serif;
+    color: #7b8a5b;
+    font-size: 1.8rem;
+    z-index: 100; /* Stays on top of everything */
+}
+
+.label-icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* --- 2. COTTAGE BACKGROUND (Blurs on Click) --- */
+.cottage-container {
+    position: absolute;
+    top: 45%;
+    left: 45%; 
+    transform: translate(-50%, -50%) rotate(1deg);
+    width: 900px;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.cottage-img { 
+    width: 100%; 
+    height: auto; 
+}
+
+/* Bright focus effect for the house */
+.is-blurred {
+    opacity: 0.3; /* CHANGED from filter: blur(9px); */
+    
+    /* Ensure any leftover blur is removed */
+    filter: none; 
+}
+
+/* --- 3. INTRO TEXT (Disappears on Click) --- */
+.intro-text {
+    position: absolute;
+    right: 10%; 
+    top: 30%;
+    font-size: 1.6rem; 
+    color: #7b8a5b; 
+    font-family: 'Quattrocento', serif;
+    line-height: 1.3;
+    z-index: 5;
+    transition: opacity 0.5s ease;
+}
+
+/* --- 4. THE MAILBOX (Always Sharp) --- */
+.mailbox-container {
+    position: absolute;
+    right: 4%; 
+    bottom: -16%;
+    width: 450px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 100; /* Stays sharp above the blur */
+}
+
+.mailbox-img { 
+    width: 100%; 
+    height: auto; 
+}
+
+.sketch-lines {
+    position: absolute;
+    right: -30px; 
+    top: -20px;
+    width: 150px;
+    z-index: 101;
+    pointer-events: none;
+}
+
+.mailbox-container:hover { 
+    transform: scale(1.05); 
+}
+
+/* --- 5. OVERLAYS (Envelope & Letter) --- */
+.envelope-overlay {
+    position: fixed; 
+    inset: 0;
+    background: rgba(255, 255, 255, 0.2); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    z-index: 50; /* Between house and mailbox */
+}
+
+.envelope-wrapper { 
+    width: 500px; 
+    cursor: pointer; 
+    animation: popUp 0.6s ease forwards;
+    transform-origin: center;
+}
+
+.envelope-img { width: 100%; height: auto; }
+
+.letter-overlay {
+    position: fixed; 
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    z-index: 200; 
+    padding: 40px 0;
+}
+
+/* --- 6. THE SCROLLABLE LETTER --- */
+.paper-container {
+    position: relative; /* This acts as the anchor for the clip */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FORCE EXACT CREATOR SIZE */
+.paper {
+    height: 75vh;
+    aspect-ratio: 1 / 1.414;
+    width: auto;
+    background-size: cover;
+    background-position: center;
+    padding: 60px 50px; /* Top padding keeps text below the clip area */
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    
+    /* REMOVE flex centering and use standard block layout */
+    display: block; 
+    text-align: left;
+    overflow: hidden;
+}
+
+
+/* TOP RIGHT ACTIONS */
+.actions {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column; /* Stack them vertically */
+    gap: 10px;
+    z-index: 300;
+}
+.write-btn {
+    text-decoration: none;
+    background: #7b8a5b !important; /* Make it stand out slightly */
+    color: white !important;
+    width: 160px;
+    border: 1.5px solid #7b8a5b;
+    /* padding: 10px 20px; */
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Quattrocento', serif;
+    transition: 0.3s;
+    
+    /* THE FIX FOR CENTERING */
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 160px; /* Gives them a uniform look */
+    text-align: center;
+}
+
+.dl-btn {
+    background: white;
+    color: #7b8a5b;
+    border: 1.5px solid #7b8a5b;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Quattrocento', serif;
+    transition: 0.3s;
+    
+    /* THE FIX FOR CENTERING */
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 160px; /* Gives them a uniform look */
+    text-align: center;
+}
+.write-btn, .dl-btn {
+    box-sizing: border-box; /* Ensures the 160px includes the padding */
+    width: 160px !important;
+    height: 30px; /* Fixed height makes them look like a matching set */
+    margin-bottom: 5px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between icon and text */
+    
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-family: 'Quattrocento', serif;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.write-btn:hover {
+    background: #fdf6e3;
+    transform: translateX(-5px);
+}
+
+
+.archive-note {
+    position: fixed;
+    bottom: 15px;
+    left: 30px;
+    /* font-family: 'Homemade Apple', cursive; */
+    font-size: 0.7rem;
+    color: #7b8a5b;
+    max-width: 400px;
+    line-height: 1.5;
+    opacity: 0.7;
+    text-align: left; /* Changed from right */
+    z-index: 10;
+}
+
+.dl-btn:hover {
+    background: #fdf6e3;
+    transform: translateX(-5px);
+}
+
+
+
+.paper-clip {
+    position: absolute;
+    top: -35px;      /* Move it up so it hangs off the top */
+    right: 25px;     /* Move it right to the edge */
+    width: 60px;
+    z-index: 300;    /* High z-index to sit ON TOP of the paper edge */
+    transform: rotate(12deg);
+    pointer-events: none;
+}
+
+.letter-text {
+    font-size: 1.4rem; 
+    line-height: 1.2;
+    white-space: pre-wrap; 
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: block; /* Ensures it doesn't try to flex-center */
+}
+
+.placed-sticker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* --- UTILITIES & ANIMATIONS --- */
+.hidden { display: none !important; }
+.fade-out { opacity: 0; pointer-events: none; }
+
+@keyframes popUp {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.paper::-webkit-scrollbar { display: none; }
+

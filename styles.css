@@ -1,0 +1,444 @@
+/* --- THEME VARIABLES & RESET --- */
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script&family=Indie+Flower&family=Nunito:wght@400;700&family=Pacifico&family=Patrick+Hand&family=Shadows+Into+Light&family=Cedarville+Cursive&family=Delius&family=Handlee&family=Homemade+Apple&family=La+Belle+Aurore&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Homemade+Apple&family=Reenie+Beanie&family=Cedarville+Cursive&family=Marck+Script&family=La+Belle+Aurore&family=Square+Peg&family=Fasthand&family=Freehand&family=Babylonica&family=Waterfall&family=Mrs+Saint+Delafield&family=Mr+De+Haviland&display=swap');
+:root {
+    --desk-bg: url('assets/bg-l.jpg');
+    --palette-border: #7ab2cc;
+    --palette-inner-bg: #f0faff;
+    --gradient-start: #d4f1f4;
+    --gradient-end: #b8e9f0;
+    --text-color: #396670;
+    --accent-color: #7ab2cc;
+    --btn-hover: #e6f7ff;
+    --post-btn: #d87093;
+    --paper-shadow: rgba(0,0,0,0.2);
+}
+
+.dreamer-mode {
+    --desk-bg: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    --text-color: #5d4037;
+}
+
+body { margin: 0; font-family: 'Nunito', sans-serif; overflow: hidden; }
+
+/* --- THE DESK --- */
+.desk {
+    display: flex; height: 100vh; width: 100vw;
+    background: var(--desk-bg) center/cover no-repeat #f3e9dc;
+    align-items: center; justify-content: center;
+    padding: 20px; box-sizing: border-box; transition: 0.5s;
+}
+
+/* --- PALETTES --- */
+.palette {
+    width: 320px; height: 80vh;
+    border: 4px solid var(--palette-border);
+    background: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    padding: 12px; border-radius: 35px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 10;
+    transition: 0.5s; margin: 0 20px;
+}
+
+.palette-inner {
+    width: 100%; height: 100%; background: var(--palette-inner-bg);
+    border: 3px solid var(--palette-border); border-radius: 24px;
+    display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; overflow: hidden;
+}
+
+.scroll-area { flex: 1; overflow-y: auto; padding-right: 5px; }
+.scroll-area::-webkit-scrollbar { display: none; }
+/* --- THE PERFECT ACCORDION LOGIC --- */
+.category {
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(122, 178, 204, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.cat-header {
+    padding: 12px 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    z-index: 5; /* Keeps headers above the sliding content */
+}
+
+.cat-content {
+    max-height: 0;
+    overflow: hidden; /* Hidden when closed */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0 5px;
+}
+
+/* THE "PERF" FIX: High max-height allows all 11 rows to show */
+.category.active .cat-content {
+    max-height: 2500px; 
+    padding-bottom: 20px;
+    overflow-y: visible; 
+}
+
+/* Ensure the grid stays neat */
+.paper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 5px;
+    height: auto;
+}
+
+.paper-opt {
+    width: 100%; aspect-ratio: 1 / 1.4;
+    background-size: cover; background-position: center;
+    border: 2px solid #fff; border-radius: 8px; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.2s;
+}
+.paper-opt.active { border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--accent-color); }
+
+/* --- WORKSPACE & PAPER --- */
+.workspace { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
+.paper {
+    height: 75vh; aspect-ratio: 1 / 1.414; background: white;
+    background-size: cover; background-position: center;
+    padding: 40px; border-radius: 5px; position: relative;
+    box-shadow: 0 10px 30px var(--paper-shadow);
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.paper-clip {
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 150px; z-index: 20; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); pointer-events: none;
+}
+
+textarea {
+    width: 100%; height: 100%; border: none; outline: none; resize: none;
+    font-size: 1.4rem; background: transparent; color: #555;
+    position: relative; z-index: 5;
+}
+
+/* --- UTILITIES & MODAL --- */
+.hidden { display: none !important; }
+.disabled { opacity: 0.5; pointer-events: none; filter: grayscale(100%); }
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 100; display: flex; justify-content: center; align-items: center;
+}
+.modal { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 300px; }
+
+/* Existing grids/buttons stay the same... */
+.grid2 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 0;
+}.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.grid6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    padding: 15px 5px; /* Space for the hover scale */
+}.opt { 
+    border: 2px solid #e1eff5; 
+    background: #fff; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    color: #6a8caf;
+    
+    /* THE FIX: */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 28px;        /* Forces all boxes to be the same height */
+    padding: 5px; 
+    text-align: center;
+    overflow: hidden;    /* Stops long font names from breaking the box */
+    transition: all 0.2s;
+}
+
+.opt:hover { 
+    background: var(--btn-hover); 
+    transform: translateY(-2px); 
+    border-color: var(--accent-color); 
+}
+.opt.active { background: var(--accent-color); color: white; }
+.dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid white; transition: 0.2s; }
+.dot:hover {
+    transform: scale(1.3);
+    z-index: 10;
+}
+.dot.active { transform: scale(1.2); border-color: var(--accent-color); }
+.action-btn { width: 100%; padding: 15px; border: none; border-radius: 20px; background: var(--accent-color); color: #fff; font-weight: bold; cursor: pointer; margin-top: 15px; }
+
+.settings-btn {
+    position: absolute; top: 20px; right: 20px; z-index: 100;
+    background: white; width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: var(--accent-color);
+}
+
+/* THEME DEFINITIONS */
+[data-vibe="dark"] {
+    --palette-border: #3e4a59;
+    --palette-inner-bg: #f5f5f5;
+    --gradient-start: #2c3e50;
+    --gradient-end: #1a252f;
+    --accent-color: #3e4a59;
+    --text-color: #2c3e50;
+}
+
+[data-vibe="pink"] {
+    --palette-border: #e8a2b7;
+    --palette-inner-bg: #fff0f5;
+    --gradient-start: #fce4ec;
+    --gradient-end: #f8bbd0;
+    --accent-color: #d87093;
+    --text-color: #880e4f;
+}
+
+/* Theme Modal Grid */
+.theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+.theme-opt { cursor: pointer; border: 2px solid #eee; padding: 10px; border-radius: 12px; transition: 0.2s; }
+.theme-opt.active { border-color: var(--accent-color); background: #f9f9f9; }
+.swatch { width: 100%; height: 30px; border-radius: 6px; margin-bottom: 5px; }
+
+/* 1. Global UI Font Change & Size Reduction */
+body, .palette-inner, h2, h3, .opt, .action-btn {
+    font-family: 'Homemade Apple', cursive !important;
+    font-size: 0.85rem; /* Reduced from 1rem */
+    color: var(--text-color);
+}
+
+/* Make Headers even smaller to match the vibe */
+h2 { font-size: 1.1rem; }
+h3 { font-size: 0.75rem; text-transform: lowercase; }
+
+/* --- 2. LAYOUT FIX (Keeps everything in the box) --- */
+.palette-inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Clips content to the white box */
+}
+
+.scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* --- 3. ACCORDION FIX (No more overlapping) --- */
+.category {
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(122, 178, 204, 0.2);
+}
+
+.cat-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+/* One rule to rule them all - allows all 11 rows to show without overlap */
+.category.active .cat-content {
+    max-height: 1500px; 
+    padding-bottom: 15px;
+}
+
+/* This forces all text inside the panel buttons to stay the same size */
+.font-btn {
+    font-size: 0.6rem !important; /* Adjust this number to your liking */
+    line-height: 1.2;
+}
+
+
+/* --- 3-COLUMN STICKER GRID --- */
+/* --- 3-COLUMN STICKER GRID FIX --- */
+.sticker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 8px;
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: visible; /* Allows them to be seen clearly */
+}
+
+.sticker-item {
+    width: 100% !important;
+    min-width: 0; /* Prevents overflow */
+    height: auto;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border: 1px dashed #e1eff5;
+    border-radius: 8px;
+    padding: 2px;
+    cursor: grab;
+    object-fit: contain;
+}
+
+/* Ensure the container isn't cutting them off */
+.cat-content {
+    overflow-y: auto !important;
+    width: 100%;
+}
+
+.sticker-item:hover {
+    background: #fafafa;
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.sticker-item:active {
+    cursor: grabbing;
+}
+
+/* Update these in your styles.css */
+#stickerlayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows you to click 'through' the layer to the textarea */
+    z-index: 6; /* Higher than textarea (5) but lower than paper-clip */
+    overflow: hidden;
+}
+
+.placed-sticker {
+    position: absolute;
+    width: 80px; 
+    height: auto;
+    pointer-events: auto; /* Makes individual stickers interactable if you want to delete them later */
+    transform: translate(-50%, -50%);
+    cursor: move;
+}
+
+#delete-zone {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #a5a8a8;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+}
+
+/* Shown when dragging starts */
+/* Update this block to include display: flex !important */
+#delete-zone.visible {
+    display: flex !important; /* This overrides the .hidden class */
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* When the sticker is actually hovering over the bin */
+#delete-zone.hovered {
+    background: #dbe0e0;
+    transform: translateX(-50%) scale(1.1);
+}
+
+.placed-sticker {
+    cursor: grab;
+}
+.placed-sticker:active {
+    cursor: grabbing;
+}
+
+/* --- THE FOLDING ANIMATION --- */
+.paper.folding {
+    transform: perspective(1000px) rotateX(20deg) scale(0.1) translateY(500px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.envelope {
+    width: 450px;
+    height: 330px;
+    background-image: url('assets/envelope.png'); /* Put your Pinterest image here! */
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    transform: scale(0.5);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+}
+
+.envelope.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Slide the sidebars */
+.palette.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    filter: grayscale(80%);
+}
+.paper {
+    /* ... existing styles ... */
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure the unfold button looks like a secondary option */
+.secondary-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-family: 'Homemade Apple', cursive !important;
+}
+
+/* 2-Column Envelope Grid */
+.envelope-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 per row */
+    gap: 12px;
+    padding: 10px 5px;
+}
+
+.env-opt {
+    width: 100%;
+    aspect-ratio: 1.4 / 1; /* Envelopes are usually wider than tall */
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.env-opt:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+}
+
+.env-opt.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* Ensure the workspace envelope uses the selected image */
+.envelope {
+    background-size: contain; /* Changed to contain so the whole envelope is visible */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}

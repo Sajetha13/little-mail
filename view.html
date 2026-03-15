@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>you have mail!</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="view-styles.css">
+</head>
+<body>
+
+    <main class="canvas" id="main-canvas">
+    
+        <div class="top-label">
+            little mail 
+            <img src="https://img.icons8.com/?size=100&id=nNEWPXI3hRsr&format=png&color=7d8a6b" class="label-icon" alt="icon">
+        </div>
+        <div class="cottage-container">
+            <img src="assets/cottage-bg.jpeg" alt="cottage" class="cottage-img">
+        </div>
+
+        <div class="mailbox-area">
+            <div class="intro-text">oh you’ve got mail !!!</div>
+            <div class="mailbox-container" id="mailbox">
+                <img src="assets/mailbox.png" alt="mailbox" class="mailbox-img">
+                <img src="assets/sketch-lines.png" alt="sketch lines" class="sketch-lines">
+            </div>
+        </div>
+
+        <div class="envelope-overlay hidden" id="envelope-overlay">
+            <div class="envelope-wrapper" id="envelope-wrapper">
+                <img src="assets/envelopes/e_1.webp" id="envelope-img" class="envelope-img" alt="envelope">
+            </div>
+        </div>
+
+        <div class="letter-overlay hidden" id="letter-overlay">
+            <div class="actions">
+                <a href="index.html" class="write-btn">
+                    <i class="fas fa-pen-fancy"></i> write a letter
+                </a>
+                <button class="dl-btn" onclick="location.reload()">close letter</button>
+                <button class="dl-btn" onclick="downloadLetter()">save letter</button>
+                <button class="dl-btn" onclick="downloadEnvelope()">save envelope</button>
+            
+                <p class="archive-note">
+                    psst... little mail is a busy place! make sure to archive this letter to your own gallery before the winds take it away ;)
+                </p>
+            </div>
+            
+            <div class="paper-container">
+            <img src="assets/paper-clip-gold.png" class="paper-clip" alt="clip">
+            
+            <div class="paper" id="paper-bg">
+                <div id="letter-content" class="letter-text"></div>
+                <div id="sticker-layer"></div>
+            </div>
+        </div>
+        </div>
+
+    </main>
+
+    <script src="view-script.js"></script>
+</body>
+</html>

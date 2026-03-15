@@ -359,6 +359,7 @@ postBtn.addEventListener('click', async () => {
     } else {
         // 3. Generate Link dynamically
         // Chops off 'index.html' and adds 'view.html' so it works on Localhost & GitHub!
+        const letterId = data[0].id;
         const baseUrl = window.location.href.split('index.html')[0];
         const secretLink = `${baseUrl}view.html?id=${letterId}`;
         

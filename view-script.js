@@ -49,19 +49,56 @@ function renderLetterData(data) {
     contentDiv.style.fontFamily = data.font;
     contentDiv.style.color = data.color;
 
-    // 2. Paper & Envelope Visuals
-    paperBg.style.backgroundImage = `url('${data.paper_img}')`;
-    envelopeImg.src = data.envelope_img; // Set the envelope the creator picked
+    // 2. Apply the same font size/line-height logic as the creator
+    const fontName = data.font.toLowerCase();
+    if (fontName.includes('aurore')) {
+        contentDiv.style.fontSize = "1.0rem";
+        contentDiv.style.lineHeight = "1.2";
+    } else if (fontName.includes('marck')) {
+        contentDiv.style.fontSize = "1.2rem";
+        contentDiv.style.lineHeight = "1.4";
+    } else if (fontName.includes('cedarville')) {
+        contentDiv.style.fontSize = "1.1rem";
+        contentDiv.style.lineHeight = "1.1";
+    } else if (fontName.includes('apple')) {
+        contentDiv.style.fontSize = "0.8rem";
+        contentDiv.style.lineHeight = "1.9";
+    } else if (fontName.includes('haviland') || fontName.includes('delafield') || fontName.includes('waterfall')) {
+        contentDiv.style.fontSize = "1.7rem";
+        contentDiv.style.lineHeight = "1.2";
+    } else if (fontName.includes('handlee')) {
+        contentDiv.style.fontSize = "1.0rem";
+        contentDiv.style.lineHeight = "1.4";
+    } else if (fontName.includes('fasthand')) {
+        contentDiv.style.fontSize = "1.0rem";
+        contentDiv.style.lineHeight = "1.4";
+    } else if (fontName.includes('reenie')) {
+        contentDiv.style.fontSize = "1.2rem";
+        contentDiv.style.lineHeight = "1.4";
+    } else if (fontName.includes('indie flower')) {
+        contentDiv.style.fontSize = "1.0rem";
+        contentDiv.style.lineHeight = "1.2";
+    } else if (fontName.includes('babylonica')) {
+        contentDiv.style.fontSize = "1.6rem";
+        contentDiv.style.lineHeight = "1.4";
+    } else {
+        contentDiv.style.fontSize = "1.4rem";
+        contentDiv.style.lineHeight = "1.4";
+    }
 
-    // 3. Render Stickers
-    stickerLayer.innerHTML = ''; // Clear placeholder
+    // 3. Paper & Envelope Visuals
+    paperBg.style.backgroundImage = `url('${data.paper_img}')`;
+    envelopeImg.src = data.envelope_img;
+
+    // 4. Render Stickers (unchanged)
+    stickerLayer.innerHTML = '';
     data.stickers.forEach(s => {
         const img = document.createElement('img');
-        img.src = s.path; // Use the path stored in DB
+        img.src = s.path;
         img.classList.add('placed-sticker');
         img.style.left = `${s.x * 100}%`;
         img.style.top = `${s.y * 100}%`;
-        img.style.width = "80px"; // Size from creator
+        img.style.width = "80px";
         stickerLayer.appendChild(img);
     });
 }
